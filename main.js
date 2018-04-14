@@ -15,16 +15,26 @@ connection.connect(function (err) {
     console.log(`connected as id ${connection.threadId}`);
 });
 
-// function bidItem() {
-//     - Ask for user input on how much to bid
-//     - compare user bid to current highest bid
-//     - if userBid > curBid then
-//         > Tell User you are new highest bidder
-//         > update curBid to userBid
-//     - if userBid <= curBid then
-//         > Info user you failed
-//         > Boot them back to selection screen
-//  }
+function initialPrompt() {
+    inquirer.prompt([
+        {
+            name: "option",
+            type: "list",
+            message: "What would you like to do?",
+            choices: ["Post an item", "Bid on item"]
+        },
+    ]).then(function (answer) {
+        console.log(answer);
+
+        if (answer.option == "Post an item") {
+            // Molly's post function goes here
+            console.log("post something");
+        }
+        else {
+            bidItem();
+        }
+    });
+}
 
 function bidItem() {
     console.log("User selected bidItem");
@@ -59,9 +69,11 @@ function bidItem() {
                 var highestBid = res[0].price;
                 console.log(itemName + ' ' + userBid);
                 if (userBid > highestBid) {
+                    console.log("You were the highest bidder!");
                     updateBid(itemName, userBid);
                 } else {
-                    // promptUser()
+                    console.log("Sorry you weren't the highest bidder");
+                    initialPrompt();
                 }
             })
         })
@@ -86,4 +98,4 @@ function updateBid(itemName, newHighBid) {
     )
 }
 
-bidItem();
+initialPrompt();
