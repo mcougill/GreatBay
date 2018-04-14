@@ -18,7 +18,7 @@ connection.connect(function(err){
 
 inquirer.prompt([
   {
-    name: "answer",
+    name: "option",
     type: "list",
     message: "What would you like to do?",
     choices: ["Post an item", "Bid on item"]
@@ -26,7 +26,7 @@ inquirer.prompt([
 ]).then(function(answer) {
     console.log(answer);
 
-    if (answer == "Post an item") {
+    if (answer.option == "Post an item") {
         console.log("post something");
     }
     else {
