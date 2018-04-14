@@ -1,4 +1,8 @@
 var mysql = require("mysql");
+var inquirer = require("inquirer");
+
+var name;
+var price;
 
 var connection = mysql.createConnection({
    host: "localhost",
@@ -13,3 +17,58 @@ connection.connect(function(err){
    if(err) throw(err);
    console.log(`connected as id ${connection.threadId}`);
 });
+
+function postItem() {
+   
+ 
+
+ inquirer.prompt([
+    {
+        type: "input",
+        message: "What would you like  to post",
+        name: "name"
+
+        
+    },
+]).then(function (user) { 
+       
+        var query =connection.query( 
+            "INSERT INTO itemTable SET ?",
+        
+            {
+                name: user.name 
+              }, function (err,res){
+    
+                console.log(res.affectedRows + " Item Added!\n");
+        
+              }     
+        );
+    });
+       
+
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the price?",
+            price: "price"
+    
+    
+            
+        },
+    ]).then(function (user) { 
+           
+            var query =connection.query( 
+                "INSERT INTO itemTable SET ?",
+            
+                {
+                    price: user.price 
+                  }, function (err,res){
+        
+                    console.log(res.affectedRows + " Item Added!\n");
+                    
+                  }     
+            );
+        });
+           
+    }
+    
